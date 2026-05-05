@@ -10,7 +10,16 @@ struct DirectionalLight{
     float diffuseInten;
 };
 
+struct SpotLight{
+    vec3 color;
+    float ambientInten;
+    vec3 lightDir;
+    vec3 apertureAngle;
+    float diffuseInten;
+};
+
 uniform DirectionalLight directionalLight;
+uniform SpotLight spotLight;
 uniform vec3 cameraPos = vec3(0,0,0);
 uniform float specularStrength = 10.0f;
 uniform float shininess = 32.0f;
@@ -22,14 +31,14 @@ void main(){
     vec3 viewDir = normalize(cameraPos - PosFrag));
 
     // Ambient
-    vec3 ambient = directionalLight.ambientInten * directionalLight.color;
+    vec3 ambient = spotLight.ambientInten * spotLight.color;
     // Diffuse
     float diff = max(dot(norm, lDir), 0.0f);
-    vec3 diffuse = directionalLight.color * directionalLight.diffuseInten * diff;
+    vec3 diffuse = spotLight.color * spotLight.diffuseInten * diff;
     //Specular
     vec3 halfWayVec = normalize(lDir + viewDir);
     float spec = pow(max(dot(norm, halfWayVec), 0.0f), shininess);
-    vec3 specular = directionalLight.color * specularStrength * spec;
+    vec3 specular = spotLight.color * specularStrength * spec;
 
     vec3 luzFinal = ambient + diffuse + specular;
 

@@ -18,6 +18,14 @@ struct DirectionalLight{
     vec3 lightDir;
 };
 
+struct SpotLight{
+    BaseLight base;
+    vec3 lightDir;
+    vec3 apertureAngleMax;
+    vec3 apertureAngleMin;
+    float apertureAngle;
+};
+
 struct PointLight{
     BaseLight base;
     vec3 pos;
@@ -57,6 +65,16 @@ vec3 CalculateDirectionalLight(DirectionalLight dirLight){
     vec3 norm = normalize(normal);
     vec3 lDir  = normalize(directionalLight.lightDir);
     vec3 viewDir = normalize(cameraPos - posFrag);
+
+    return CalculateLightValues(dirLight.base, norm, lDir, viewDir);
+
+}
+
+vec3 CalculateSpotLight(DirectionalLight dirLight){
+    vec3 norm = normalize(normal);
+    vec3 lDir  = normalize(directionalLight.lightDir);
+    vec3 viewDir = normalize(cameraPos - posFrag);
+    vec3 angle = dotproduct(apertureAngleMax, apertureAngleMin);
 
     return CalculateLightValues(dirLight.base, norm, lDir, viewDir);
 
