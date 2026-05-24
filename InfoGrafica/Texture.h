@@ -12,7 +12,7 @@ public:
 	Texture(const char* path);
 
 	void LoadTexture();
-	void UseTexture();
+	void UseTexture(int textureNum);
 	void ClearTexture();
 
 	~Texture();
